@@ -4,13 +4,15 @@ exports.config = {
 
   updateJob: false,
   specs: [
-    './tests/specs/single_test.js'
+    './tests/specs/regression-suite/*.js'
   ],
   exclude: [],
 
   capabilities: [{
     browser: 'chrome',
-    name: 'single_test',
+    os: 'OS X',
+    os_version: 'El Capitan',
+    name: 'Regression suite',
     build: 'webdriver-browserstack'
   }],
 
@@ -18,12 +20,14 @@ exports.config = {
   coloredLogs: true,
   screenshotPath: './errorShots/',
   baseUrl: '',
-  waitforTimeout: 10000,
+  waitforTimeout: 15000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
+  reporters: ['dot', 'spec'],
   
   framework: 'mocha',
   mochaOpts: {
-      ui: 'bdd'
+      ui: 'bdd',
+      timeout: 9999999
   }
 }
