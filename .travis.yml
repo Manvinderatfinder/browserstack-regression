@@ -5,7 +5,7 @@ node_js:
 script:
   - npm install
   - npm install wdio-spec-reporter
-  - npm run regression
+  - npm run multiple
 
 addons:
   browserstack:
