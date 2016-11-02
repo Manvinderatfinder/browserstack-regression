@@ -9,5 +9,5 @@ script:
 
 addons:
   browserstack:
-    username: "manvinderatfinde1"
-    access_key: "AtYbSCsQujdwqXpbwYZc"
+    username: "manvinderverma1"
+    access_key: "PMM7UxGeAiQozg5aCWia"
