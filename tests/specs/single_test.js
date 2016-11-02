@@ -1,8 +1,12 @@
-var specs = [
-  './regression-suite/*.js'
-  
-];
+var assert = require('assert');
 
-for (var i = specs.length - 1; i >= 0; i--) {
-  require(specs[i]);
-};
+describe('Google\'s Search Functionality', function() {
+  it('can find search results', function () {
+    browser
+      .url('https://www.google.com/ncr')
+      .setValue('*[name="q"]','BrowserStack\n')
+      .pause(5000);
+    
+    assert(browser.getTitle().match(/BrowserStack - Google Search/i));
+  });
+});

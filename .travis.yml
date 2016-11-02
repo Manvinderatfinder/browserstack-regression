@@ -2,13 +2,10 @@ language: node_js
 node_js:
   - "4.3"
 
-before_install:
-  - true && `base64 --decode <<< ZXhwb3J0IEJST1dTRVJTVEFDS19BQ0NFU1NfS0VZPUh5VmZydXJvb3dYb041eGhLZEs2Cg==`
-
 script:
   - npm install
   - npm install wdio-spec-reporter
-  - npm run single
+  - npm run regression
 
 addons:
   browserstack:
