@@ -10,7 +10,7 @@ before_install:
 
 script:
   - npm install
-  - npm run regression
+  - npm run single
 addons:
   browserstack:
     username: "manvinderatfinde1"
