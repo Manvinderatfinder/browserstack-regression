@@ -15,4 +15,7 @@ describe('CCF commentary box', function() {
         var hide = browser.isExisting('.latest-commentary__content');
         assert(hide, false);
     });
+
+
+    
 });
