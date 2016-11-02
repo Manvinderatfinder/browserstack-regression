@@ -7,7 +7,9 @@ before_install:
 
 script:
   - npm install
+  - npm install wdio-spec-reporter
   - npm run single
+
 addons:
   browserstack:
     username: "manvinderatfinde1"
