@@ -4,8 +4,8 @@ user: process.env.BROWSERSTACK_USERNAME || 'manvinderverma1',
 
   updateJob: false,
   specs: [
-    './tests/specs/multiple_test.js'
-  ],
+    './tests/specs/regression-suite/*.js' 
+    ],
   exclude: [],
 
   capabilities: [{

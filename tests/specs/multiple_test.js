@@ -1,7 +1,6 @@
 var specs = [
-  './multiple/test_01.js',
-  './multiple/test_02.js',
-  './multiple/test_03.js'
+  './regression-suite/*.js'
+  
 ];
 
 for (var i = specs.length - 1; i >= 0; i--) {
