@@ -363,7 +363,7 @@ describe('BT calculator widget', function() {
    browser
      var result = browser.element('.zeroPercentPurchase.ccf.calculator tbody .calculator-data.string-bottom');
      console.log(result);
-     assert(result.isVisible()===false);
+     assert(result.isVisible()===true);
  });
 });
 
@@ -408,7 +408,7 @@ describe('Refinance calculator widget', function() {
         .pause(1000);
         var result = browser.element('#summary-belt');
      console.log(result);
-     assert(result.isVisible()===false);
+     assert(result.isVisible()===true);
  
     });
 });
