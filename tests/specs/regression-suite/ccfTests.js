@@ -26,9 +26,8 @@ describe('FIN hp BT calcultor', function() {
         
          browser
          // check if interest saved amount is showing
-     var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
-     console.log(result);
-     assert(result.isVisible()==false);
+    var hide = browser.isExisting('.calculator-table  tbody tr:nth-child(1) .text-x-large');
+        assert(hide, false);
     });
 });// end describe
 
@@ -59,9 +58,8 @@ describe('BT calculator widget', function() {
      .click('.btn.btn-secondary')
    browser
      // check if interest saved amount is showing
-     var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
-     console.log(result);
-     assert(result.isVisible()===false);
+      var hide = browser.isExisting('.calculator-table  tbody tr:nth-child(1) .text-x-large');
+        assert(hide, false);
  });
 });// end describe
 
