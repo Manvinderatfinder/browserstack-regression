@@ -90,7 +90,7 @@ describe('CCF commentary box', function() {
         .click('.latest-commentary__trigger')
         // check if commentary box content is showing
         var hide = browser.isExisting('.latest-commentary__content');
-        assert(hide, false);
+        assert(hide, true);
     });
     
 });
@@ -131,12 +131,14 @@ describe('Test for an existing user signup', function() {
    browser
             //open credit score page
             .url('https://www.finder.com.au/credit-score')
+            .pause(2000);
+    browser        
             // enter existing user email id
             .setValue('*[name="emailAddress"]','tester1@hiveempire.com')
             //enter existing user password
             .setValue('*[name="password"]','test123#')
             .click('.credit-check-sign-up__submit')
-        .pause(1000)
+        .pause(1000);
          browser
          // check if it do not allow existing to signup and load error message
      var result = browser.getText('.form__group.is_invalid > .form__error');
@@ -438,7 +440,7 @@ describe('BT calculator widget', function() {
    browser
             .url('http://www.creditcardfinder.com.au/frequent-flyer-credit-cards')
             .pause(3000)
-            .scroll(0, 750)
+            
             .pause(1000)
             .click('tr.odd > td.sortInitialOrder-desc > span.table-popover')
         .pause(1000)
