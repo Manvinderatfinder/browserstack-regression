@@ -61,7 +61,7 @@ describe('BT calculator widget', function() {
      // check if interest saved amount is showing
      var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
      console.log(result);
-     assert(result.isVisible()===false);
+     assert(result.isVisible()===true);
  });
 });// end describe
 
@@ -201,7 +201,7 @@ describe('Home loan table filter', function() {
         // check in table filter content is hiding
         var result = browser.element('.form-widget--filter');
         console.log(result);
-        assert(result.isVisible()===false);
+        assert(result.isVisible()===true);
    
     });
 });//end describe
