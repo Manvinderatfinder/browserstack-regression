@@ -28,7 +28,7 @@ describe('FIN hp BT calcultor', function() {
          // check if interest saved amount is showing
      var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
      console.log(result);
-     assert(result.isVisible()===true);
+     assert(result.isVisible()==false);
     });
 });// end describe
 
