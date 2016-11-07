@@ -540,3 +540,25 @@ describe('FSA HP dropdown navigator', function() {
         assert(result.isVisible() == false);
     });
 }); // end describe
+
+
+/* 
+   ---------------------------------------
+   Test for FSA review page sticky header
+   ---------------------------------------
+*/
+
+describe('FSA review page sticky header', function() {
+    it('should load dropdown navigator', function() {
+        browser
+        // load CCF home page
+            .url('https://www.finder.com.au/bankwest-hero-saver-savings-account')
+            // scroll browser by 700px to make review page header visible
+            .scroll(0,700);
+        browser
+        // check if submenu expands when click on the main menu
+        var result = browser.element('.review-hero');
+        console.log(result);
+        assert(result.isVisible() == true);
+    });
+}); // end describe
