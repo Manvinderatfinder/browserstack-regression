@@ -200,7 +200,8 @@ describe('Home loan table filter', function() {
             //select input for loan type
             .click('input[name="hl_product_loan_type"][type="radio"][value="variable"]')
             //clck on Advance filter button to hide table filter
-            .click('.js-filter-button');
+            .click('.js-filter-button')
+            .pause(3000);
         browser
         // check in table filter content is hiding
         var result = browser.element('.form-widget--filter');
