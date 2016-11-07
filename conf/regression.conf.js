@@ -12,7 +12,7 @@ exports.config = {
     browser: 'chrome',
     os: 'OS X',
     os_version: 'El Capitan',
-    name: 'Regression suite',
+    name: 'Regression suite build',
     build: 'webdriver-browserstack'
   }],
 
