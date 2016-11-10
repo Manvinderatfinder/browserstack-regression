@@ -464,10 +464,10 @@ describe('FHL sticky header', function() {
    -----------------------------
 */
 
-describe('FHL sticky header', function() {
-    it('should load sticky header', function() {
+describe('FHL featured offers', function() {
+    it('should load featured offers', function() {
         browser
-        // open FHL review page
+        // open FHL page
             .url('https://www.finder.com.au/home-loans/best-home-loans')
             // scroll to featured offer
             .scroll('.offsetboxes')
@@ -479,6 +479,27 @@ describe('FHL sticky header', function() {
     });
 }); // end describe
 
+
+/* 
+   ----------------------
+   Test for FHL comments 
+   ----------------------
+*/
+
+describe('FHL comment list', function() {
+    it('should display FHL comment list', function() {
+        browser
+        // open FHL page
+            .url('https://www.finder.com.au/home-loans/')
+            // scroll to comments list
+            .scroll('.commentlist')
+            .pause(1000);
+        browser
+        // check if comments list is displaying
+        var result = browser.element('.commentlist');
+        assert(result.isVisible() === true);
+    });
+}); // end describe
 
 
 
