@@ -11,3 +11,12 @@ addons:
   browserstack:
     username: "manvinderverma1"
     access_key: "PMM7UxGeAiQozg5aCWia"
+
+    notifications:
+    
+        template:
+            - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
+        format: html
+        on_success: never
+        on_failure: never
+    slack: hiveempire:v2nkAC24IzLu1E0JHDdanqY2
