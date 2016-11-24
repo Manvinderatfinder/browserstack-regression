@@ -1,16 +1,22 @@
 var assert = require('assert');
 
-/* 
-   -------------------------------
-   Test for FIN hp BT calculator
-   -------------------------------
+/*
+   ---------------------------
+   Test for FIN hp BT widget
+   ---------------------------
 */
 
 describe('FIN hp BT calcultor', function() {
-    it('should calculate interest saved ', function() {
+    before(function(done) {
         browser
-        //open FIN homepage
-            .url('https://www.finder.com.au')
+            .url('/')
+        var elem = browser.element('html.js');
+        elem.waitForVisible();
+        browser
+            .call(done);
+    });
+    it('should calculate interest saved', function() {
+        browser
             //click on credit cards tab
             .click('.homepage__masthead a[href="#panel-credit-cards"]')
             //click on BT icon
@@ -22,54 +28,54 @@ describe('FIN hp BT calcultor', function() {
             .setValue('*[name="ccf_current_int_rate"]', '13.25')
             //click on show cards button
             .click('input.btn.btn-secondary')
-            .pause(3000);
-
-
+            // wait for BT table to appear
+            .waitForVisible('.balanceTransferTable.calculator')
         browser
         // check if interest saved amount is showing
-        var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
-        console.log(result);
-        assert(result.isVisible() == true);
+        var value = browser.getValue('[name="ccf_balance_to_transfer"]');
+        assert(value, '25000');
     });
-}); // end describe
+});
 
 
-/* 
-   -----------------------
+/*
+   ---------------------------
    Test for BT calculator
-   -----------------------
+   ---------------------------
 */
 
-describe('BT calculator widget', function() {
-    it('should caclulate interest saved through BT widget', function() {
-        //set browser dimensions to reveal BT calculator
+describe('FCC BT calcultor', function() {
+    before(function(done) {
         browser
-            .setViewportSize({
-                width: 1500,
-                height: 768
-            });
+        //open balance transfer
+            .url('/credit-cards/balance-transfer-credit-cards')
+        var elem = browser.element('html.js');
+        elem.waitForVisible();
         browser
-        // open BT page
-            .url('http://www.creditcardfinder.com.au/29-for-12-month-balance-transfer-offers')
-            // enter amount
-            .setValue('*[name="ccf_balance_to_transfer"]', '6000')
+            .call(done);
+    });
+    it('should calculate interest saved', function() {
+        browser
+        //enter the transfer amount
+            .setValue('*[name="ccf_balance_to_transfer"]', '7000')
             //enter interest rate
-            .setValue('*[name="ccf_current_int_rate"]', '11.39');
-        browser
-        //click on calculate button
-            .click('.btn.btn-secondary')
+            .setValue('*[name="ccf_current_int_rate"]', '13.25')
+            //click on calculate button
+            .click('.calculator-form >.btn-secondary')
+            // wait for interest saved calculation to be appear
             .pause(3000);
         browser
         // check if interest saved amount is showing
-        var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
+        var result = browser.element('tbody > tr:first-child td:nth-child(6) .text-x-large');
         console.log(result);
         assert(result.isVisible() == true);
     });
-}); // end describe
+});
 
 
 
-/* 
+
+/*
    ---------------------------
    Test for CCF commentary box
    ---------------------------
@@ -79,7 +85,7 @@ describe('CCF commentary box', function() {
     before(function(done) {
         browser
         //open page having commentary box
-            .url('http://www.creditcardfinder.com.au/business-credit-cards')
+            .url('/credit-cards/business-credit-cards')
             //wait for commentary box to appear
         elem = browser.element('html.js')
         elem.waitForVisible();
@@ -98,9 +104,9 @@ describe('CCF commentary box', function() {
 });
 
 
-/* 
+/*
    -------------------------
-   Test for CCF hp dropdown 
+   Test for CCF hp dropdown
    -------------------------
 */
 
@@ -109,11 +115,11 @@ describe('CCF hp dropdown', function() {
 
         browser
         // open CCF hp
-            .url('http://www.creditcardfinder.com.au')
+            .url('/credit-cards')
             //click on CCF hp dropdown and wait for dropdown content to load
             .click('.select-nav__trigger.js-select-nav__trigger')
-            .pause(1000);
-
+            //wait for dropdown list to appear
+            .waitForVisible('.select-nav__list__item');
         browser
         // check if content of dropdown is showing
         var result = browser.getText('.select-nav.one_half');
@@ -122,9 +128,33 @@ describe('CCF hp dropdown', function() {
 }); // end describe
 
 
-/* 
+/*
+   --------------------------
+   Test for CCF promo offers
+   --------------------------
+*/
+
+describe('CCF promo offer', function() {
+    it('should display promo offers ', function() {
+
+        browser
+        //open a page containing promo offer
+            .url('/credit-cards/low-interest-rate-credit-cards')
+            // scroll to promo offers
+            .scroll('.offsetboxes');
+
+        browser
+        // check if promo offers are loading
+        var result = browser.element('.offsetboxes');
+        assert(result.isVisible() === true);
+    });
+}); // end describe
+
+
+
+/*
    -----------------------------------
-   Test for credit score exixting user 
+   Test for credit score exixting user
    -----------------------------------
 */
 
@@ -132,15 +162,17 @@ describe('Test for an existing user signup', function() {
     it('should display error message for an existing user', function() {
         browser
         //open credit score page
-            .url('https://www.finder.com.au/credit-score')
-            .pause(2000);
+            .url('/credit-score')
+            .waitForVisible('.credit-check-sign-up');
         browser
         // enter existing user email id
             .setValue('*[name="emailAddress"]', 'tester1@hiveempire.com')
             //enter existing user password
             .setValue('*[name="password"]', 'test123#')
+            //click on sighup button
             .click('.credit-check-sign-up__submit')
-            .pause(1000);
+            //wait for error message to appear
+            .waitForVisible('.form__error.form__error--red-background');
         browser
         // check if it do not allow existing to signup and load error message
         var result = browser.getText('.form__group.is_invalid > .form__error');
@@ -149,25 +181,17 @@ describe('Test for an existing user signup', function() {
 }); // end describe
 
 
-/* 
+/*
    ----------------------------
-   Test for FHL commentary box 
+   Test for FHL commentary box
    ----------------------------
 */
 
 describe('FHL commentary box', function() {
-    before(function(done) {
-        browser
-        // open FHL homepage
-            .url('https://www.finder.com.au/home-loans')
-        elem = browser.element('html.js')
-        elem.waitForVisible();
-        browser
-            .call(done);
-    });
     it('should show content of commentary box', function() {
         browser
-        // scroll by 650px to show comentary box on the screen
+            .url('/home-loans')
+            // scroll by 650px to show comentary box on the screen
             .scroll(0, 650)
             //click on commentary box and expand its content
             .click('.latest-commentary__trigger')
@@ -178,7 +202,7 @@ describe('FHL commentary box', function() {
 }); // end describe
 
 
-/* 
+/*
    ----------------------------
    Test for FHL table filter
    ----------------------------
@@ -188,23 +212,30 @@ describe('Home loan table filter', function() {
     it('should load table filters', function() {
         browser
         //open FHL homepage
-            .url('https://www.finder.com.au/home-loans')
+            .url('/home-loans')
             //scroll by 500px to show table filter in the screen
-            .scroll(0, 500)
+            .scroll('.hlf.defaultTable')
             //click on advance search button
-            .click('.js-filter-button')
+            .click('.js-filter-button');
+        browser
             //click on tooptip icon
             .click('.icon-info-solid.fin-text-blue')
             //select input for offset account
             .click('input[name="hl_product_mortgage_offset"][type="radio"][value="0"]')
+            //wait for calculation result to appear
+            .waitForVisible('.calculator-data');
+       browser
             //select input for loan type
             .click('input[name="hl_product_loan_type"][type="radio"][value="variable"]')
+            //wait for calculation result to appear
+            .waitForVisible('.calculator-data');
+       browser
             //clck on Advance filter button to hide table filter
             .click('.js-filter-button')
-            .pause(3000);
+            .waitForVisible('.icon-plus',2000);
         browser
         // check in table filter content is hiding
-        var result = browser.element('.form-widget--filter');
+        var result = browser.element('.form__legend-label');
         console.log(result);
         assert(result.isVisible() === false);
 
@@ -212,7 +243,7 @@ describe('Home loan table filter', function() {
 }); //end describe
 
 
-/* 
+/*
    --------------------------------
    Test for Foreign exchange table
    --------------------------------
@@ -221,14 +252,14 @@ describe('Home loan table filter', function() {
 describe('Foreign exchange table', function() {
     it('should check FMT table', function() {
         browser
-        // open foreign exchange page   
-            .url('https://www.finder.com.au/foreign-exchange')
+        // open foreign exchange page
+            .url('/foreign-exchange')
             // scroll down by 650px to reveal the form
             .scroll(0, 650)
             //click on 'More' link from first row of the table. tr:nth-child(1) is used to select the first row
             .click('tr:nth-child(1) .btn-more-link')
             //wait for page to load when 'More' link is clicked in the table
-            .pause(3000);
+            .waitForVisible('#right-sidebar');
         browser
         //check if sidebar is showing
         var result = browser.element('#right-sidebar');
@@ -238,7 +269,7 @@ describe('Foreign exchange table', function() {
 }); //end describe
 
 
-/* 
+/*
    ------------------------------
    Test for FPL table calculator
    ------------------------------
@@ -247,8 +278,8 @@ describe('Foreign exchange table', function() {
 describe('FPL table calculator', function() {
     it('should load FPL table calculator', function() {
         browser
-        // open FPL page   
-            .url('https://www.finder.com.au/personal-loans')
+        // open FPL page
+            .url('/personal-loans')
             // scroll down by 650px to reveal the calculator
             .scroll(0, 650)
             //enter amount
@@ -259,7 +290,7 @@ describe('FPL table calculator', function() {
         //click on calculate button
             .click('.form-widget--calculator > .btn.btn-secondary')
             //wait for 3 sec to appear interet saved
-            .pause(3000);
+            .waitForVisible('.calculator-data');
         browser
         //check if interest saved is showing
         var result = browser.element('.defaultTable.plf tr:nth-child(2) .calculator-data');
@@ -269,7 +300,7 @@ describe('FPL table calculator', function() {
 }); //end describe
 
 
-/* 
+/*
    ---------------------------------
    Test for CCF review page infobox
    ---------------------------------
@@ -278,7 +309,7 @@ describe('Reviw page infobox', function() {
     it('should load review page infobox content', function() {
         browser
         //load CCF review page
-            .url('http://www.creditcardfinder.com.au/anz-first-credit-card.html')
+            .url('/anz-first-credit-card')
             //scroll by 600px to show infobox in the screen
             .scroll(0, 600)
             //click on application tab
@@ -287,7 +318,7 @@ describe('Reviw page infobox', function() {
             .click('a=Fees & Repayments')
             //click on pros&cons tab
             .click('a=Pros & Cons')
-            .pause(1000);
+            .waitForVisible('.f_container_proscons');
         browser
         //check if content of selected tab is showing
         var result = browser.element('.f_container_proscons');
@@ -297,7 +328,7 @@ describe('Reviw page infobox', function() {
 }); //end describe
 
 
-/* 
+/*
    ---------------------------------
    Test for CCF table tooltip
    ---------------------------------
@@ -306,8 +337,8 @@ describe('CCF table tooltip', function() {
     it('should CCF table tooltip content', function() {
         browser
         //open table having tooltip
-            .url('http://www.creditcardfinder.com.au/frequent-flyer-credit-cards')
-            .pause(3000);
+            .url('/credit-cards/frequent-flyer-credit-cards')
+            .waitForVisible('html.js');
         browser
         //scroll by 750px to show table tooltip
             .scroll(0, 750);
@@ -315,7 +346,7 @@ describe('CCF table tooltip', function() {
         //click on tooltip in the first table row
             .click('tr.odd > td.sortInitialOrder-desc > span.table-popover')
             //wait for tooltip content to show
-            .pause(1000);
+            .waitForVisible('.popover.fade');
         browser
         // check if tooltip content is showing
         var result = browser.element('.sub-menu');
@@ -325,47 +356,80 @@ describe('CCF table tooltip', function() {
 }); //end describe
 
 
-/* 
-   -------------------------
-   Test for CCF BT one user 
-   -------------------------
+/*
+   -------------------------------------
+   Test for frequent flyer table infobox
+   -------------------------------------
 */
 
-describe('BT oneuser signin', function() {
-    it('should load review page infobox content', function() {
+describe('Frequent flyer table infobox', function() {
+    before(function(done) {
         browser
-        //open CCF Bt onuser page
-            .url('http://www.creditcardfinder.com.au/how-does-a-balance-transfer-help-save-money.html')
-            .pause(3000);
+
+            .url('/credit-cards/compare-frequent-flyer-cards')
+        var elem = browser.element('.te-frequent-flyer');
+        elem.waitForVisible();
         browser
-            .scroll(0, 550);
-        browser
-        // click on create user button
-            .click('.js-oneuser-bt-createuser')
-            .pause(1000);
-        browser
-        // click on login here button
-            .click('a=Log in here')
-            // wait for login page to appear
-            .pause(1000);
-        browser
-        // enter email 
-            .setValue('*[name="email_address"]', 'tester1@hiveempire.com')
-            // enter password
-            .setValue('*[name="password"]', 'tester1')
-            // click on signin button
-            .click('.js-oneuser-bt-login .btn.btn-secondary')
-            .pause(3000);
-        browser
-        // check if Interest saved is showing in the BT table
-        var result = browser.element('.calculator-table  tbody tr:nth-child(1) .text-x-large');
-        console.log(result);
-        assert(result.isVisible() === true);
+            .call(done);
     });
-}); //end describe
+    it('should load table infobox', function() {
+        browser
+        .pause(3000);
+        browser
+        // scroll to promo offers
+            .scroll('.more-info-link');
+        browser
+            // click on View details
+            .click('.te-results__list li:nth-child(1) .te-cta__more-info ')
+            // wait for infobox content to get hide
+            .waitForVisible('.te-expander__content');
+        browser
+        // check if interest saved amount is showing
+        var result = browser.element('.te-expander__content');
+        console.log(result);
+        assert(result.isVisible() == true);
+    });
+});//end describe
 
 
-/* 
+
+/*
+   -----------------------------------------
+   Test for frequent flyer compare checkbox
+   -----------------------------------------
+*/
+
+describe('Frequent flyer table compare', function() {
+    before(function(done) {
+        browser
+        // open frequent flyer page
+            .url('/credit-cards/compare-frequent-flyer-cards')
+        var elem = browser.element('.te-frequent-flyer');
+        elem.waitForVisible();
+        browser
+            .call(done);
+    });
+    it('should select cards to compare', function() {
+      browser
+      .pause(3000);
+      browser
+      // scroll to promo offers
+          .scroll('.more-info-link');
+        browser
+            // click on compare checkbox
+            .click('.te-results__list label')
+            // wait for compare bar to appear
+            .waitForVisible('.compare-bar');
+        browser
+        // check if compare bar is displaying and selected products are also showing
+        var result = browser.element('.compare-bar');
+        console.log(result);
+        assert(result.isVisible() == true);
+    });
+});
+
+
+/*
    --------------------------------
    Test for CCF purchase calculator
    --------------------------------
@@ -373,14 +437,10 @@ describe('BT oneuser signin', function() {
 
 describe('CCF purchase calculator widget', function() {
     it('should caclulate interest saved through purchase calculator', function() {
-        browser
-            .setViewportSize({
-                width: 1500,
-                height: 768
-            });
+
         browser
         // open low interest rate page
-            .url('http://www.creditcardfinder.com.au/0-purchase-credit-cards')
+            .url('/credit-cards/0-purchase-credit-cards')
             // enter amount
             .setValue('*[name="monthly_spend"]', '3000');
         browser
@@ -396,9 +456,9 @@ describe('CCF purchase calculator widget', function() {
 
 
 
-/* 
+/*
    ------------------------------
-   Test for refinance calculator
+   Test for FHL refinance calculator
    ------------------------------
 */
 
@@ -406,14 +466,14 @@ describe('Refinance calculator widget', function() {
     it('should calculate refinance monthly repayment', function() {
         browser
         // open refinance calculator page
-            .url('https://www.finder.com.au/home-loans/refinancing-home-loans')
+            .url('/home-loans/refinancing-home-loans')
             // enter amount
             .setValue('*[name="amount"]', '500000')
             //enter interest rate
             .setValue('*[name="current_interest_rate"]', '4.75')
             // .click('input[name="years"][value="30 years"]')
             // wait for amount saved to be appear
-            .pause(2000);
+            .waitForVisible('.calculator-data.string-bottom');
         browser
         // click on calculate button
             .click('.js-filter-button')
@@ -421,8 +481,12 @@ describe('Refinance calculator widget', function() {
             .scroll(0, 650)
             // select input for offset account
             .click('input[name="hl_product_mortgage_offset"][type="radio"][value="1"]')
+            .waitForVisible('.calculator-data.string-bottom');
+        browser
             // select input for split home loan
             .click('input[name="hl_product_split"][type="radio"][value="1"]')
+            .waitForVisible('.calculator-data.string-bottom');
+        browser
             // selct fixed home loan
             .click('input[name="hl_product_loan_type"][type="radio"][value="fixed"]')
             .pause(2000);
@@ -436,7 +500,7 @@ describe('Refinance calculator widget', function() {
 
 
 
-/* 
+/*
    ---------------------------------------
    Test for FHL review page sticky header
    ---------------------------------------
@@ -446,10 +510,10 @@ describe('FHL sticky header', function() {
     it('should load sticky header', function() {
         browser
         // open FHL review page
-            .url('https://www.finder.com.au/loans-com-au-essentials-home-loan')
+            .url('/loans-com-au-essentials-home-loan')
             // scroll down by 750px to trigger sticky header
             .scroll(0, 750)
-            .pause(1000);
+            .waitForVisible('#summary-belt');
         browser
         // check if sticky header is loading
         var result = browser.element('#summary-belt');
@@ -458,7 +522,7 @@ describe('FHL sticky header', function() {
 }); // end describe
 
 
-/* 
+/*
    -----------------------------
    Test for FHL featured offers
    -----------------------------
@@ -468,10 +532,10 @@ describe('FHL featured offers', function() {
     it('should load featured offers', function() {
         browser
         // open FHL page
-            .url('https://www.finder.com.au/home-loans/best-home-loans')
+            .url('/home-loans/best-home-loans')
             // scroll to featured offer
             .scroll('.offsetboxes')
-            .pause(1000);
+            .waitForVisible('.offsetboxes');
         browser
         // check if feature offers are displaying
         var result = browser.element('.offsetboxes');
@@ -480,9 +544,33 @@ describe('FHL featured offers', function() {
 }); // end describe
 
 
-/* 
+/*
+   --------------------------------
+   Test for FHL hero interest rate
+   --------------------------------
+*/
+
+describe('FHL hero interest rate', function() {
+    it('should display hero interest rate', function() {
+
+        browser
+        //open FHL page having interest rate
+            .url('/home-loans/best-home-loans')
+            // scroll to promo offers
+            .scroll('.defaultHero');
+        browser
+        // check if interest rate is showing
+        var result = browser.element('.rate__integer.rate');
+        assert(result.isVisible() === true);
+    });
+}); // end describe
+
+
+
+
+/*
    ----------------------
-   Test for FHL comments 
+   Test for FHL comments
    ----------------------
 */
 
@@ -490,10 +578,10 @@ describe('FHL comment list', function() {
     it('should display FHL comment list', function() {
         browser
         // open FHL page
-            .url('https://www.finder.com.au/home-loans/')
+            .url('/home-loans/')
             // scroll to comments list
             .scroll('.commentlist')
-            .pause(1000);
+            .waitForVisible('.commentlist');
         browser
         // check if comments list is displaying
         var result = browser.element('.commentlist');
@@ -503,7 +591,7 @@ describe('FHL comment list', function() {
 
 
 
-/* 
+/*
    ---------------------------------
    Test for CCF left navbar submenu
    ---------------------------------
@@ -513,16 +601,15 @@ describe('CCF left navbar submenu', function() {
     it('should display service tooltip content', function() {
         browser
         // load CCF home page
-            .url('http://www.creditcardfinder.com.au')
+            .url('/credit-cards')
             // click on menu
-            .click('#menu-item-81553 > span.menu-element > span.menu-toggle.menu-expand')
+            .click('#menu-item-834405 > span.menu-element > span.menu-toggle.menu-expand')
             // wait for submenu to expand
-            .pause(1000);
+            .waitForVisible('.sub-menu');
         browser
         // click on menu
-            .click('#menu-item-81553 > span.menu-element > span.menu-toggle')
-            // wait for submenu to expand
-            .pause(1000);
+            .click('#menu-item-834405 > span.menu-element > span.menu-toggle')
+
         browser
         // check if submenu expands when click on the main menu
         var result = browser.element('.sub-menu');
@@ -532,33 +619,7 @@ describe('CCF left navbar submenu', function() {
 }); // end describe
 
 
-
-/* 
-   ---------------------------
-   Test for CCF table tooltip
-   ---------------------------
-*/
-
-describe('CCF table tooltip', function() {
-    it('should load content of table tooltip', function() {
-        browser
-        // open page having table tooltip
-            .url('http://www.creditcardfinder.com.au/frequent-flyer-credit-cards')
-            .pause(3000);
-        browser
-        // click on table tooltip 
-            .click('tr.odd > td.sortInitialOrder-desc > span.table-popover')
-            // pause for tootip content to load
-            .pause(1000);
-        browser
-        // check for table tootip to loading
-        var hide = browser.isExisting('.sub-menu');
-        assert(hide, false);
-    });
-}); // end describe
-
-
-/* 
+/*
    -------------------------
    Test for FSA HP dropdown
    -------------------------
@@ -568,26 +629,18 @@ describe('FSA HP dropdown navigator', function() {
     it('should load dropdown navigator', function() {
         browser
         // load CCF home page
-            .url('https://www.finder.com.au/savings-accounts')
+            .url('/savings-accounts')
             // click on dropdown navigator
-            .click('.select-nav__trigger')
-            // wait for dropdown list to appear
-            .pause(1000);
+            .click('.select-nav__trigger.js-select-nav__trigger')
+            //wait for dropdown list to appear
+            .waitForVisible('.select-nav__list__item');
         browser
-        // click on menu
-            .click('.select-nav__trigger')
-            // wait for dropdown list to get hide
-            .pause(1000);
-        browser
-        // check if submenu expands when click on the main menu
-        var result = browser.element('.select-nav__list');
-        console.log(result);
-        assert(result.isVisible() == false);
+        // check if content of dropdown is showing
+        var result = browser.getText('.select-nav.one_half');
+        assert(result, 'I want to:');
     });
 }); // end describe
-
-
-/* 
+/*
    ---------------------------------------
    Test for FSA review page sticky header
    ---------------------------------------
@@ -597,9 +650,9 @@ describe('FSA review page sticky header', function() {
     it('should load dropdown navigator', function() {
         browser
         // load CCF home page
-            .url('https://www.finder.com.au/bankwest-hero-saver-savings-account')
+            .url('/bankwest-hero-saver-savings-account')
             // scroll browser by 700px to make review page header visible
-            .scroll(0,700);
+            .scroll(0, 700);
         browser
         // check if submenu expands when click on the main menu
         var result = browser.element('.review-hero');
@@ -609,9 +662,7 @@ describe('FSA review page sticky header', function() {
 }); // end describe
 
 
-
-
-/* 
+/*
    ---------------------------------------
    Test for FSA review page sticky header
    ---------------------------------------
@@ -621,13 +672,36 @@ describe('FSA review page sticky header', function() {
     it('should load dropdown navigator', function() {
         browser
         // load CCF home page
-            .url('https://www.finder.com.au/bankwest-hero-saver-savings-account')
+            .url('/bankwest-hero-saver-savings-account')
             // scroll browser by 700px to make review page header visible
-            .scroll(0,700);
+            .scroll(0, 700);
         browser
         // check if submenu expands when click on the main menu
         var result = browser.element('.review-hero');
         console.log(result);
         assert(result.isVisible() == true);
+    });
+}); // end describe
+
+
+/*
+   ----------------------
+   Test for FHL comments
+   ----------------------
+*/
+
+describe('FSA review page sticky header', function() {
+    it('should load dropdown navigator', function() {
+        browser
+        // load CCF home page
+            .url('/loans')
+            // scroll browser by 700px to make review page header visible
+            .scroll(0, 700);
+        browser
+        // check if submenu expands when click on the main menu
+        var commentSize = browser.execute(function() {
+            return $('.commentlist li').size();
+        });
+        console.log(commentSize.value);
     });
 }); // end describe

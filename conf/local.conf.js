@@ -1,8 +1,8 @@
 var browserstack = require('browserstack-local');
 
 exports.config = {
-  user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
-  key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
+  user: process.env.BROWSERSTACK_USERNAME || 'manvinderverma1',
+  key: process.env.BROWSERSTACK_ACCESS_KEY || 'PMM7UxGeAiQozg5aCWia',
 
   updateJob: false,
   specs: [
@@ -20,14 +20,15 @@ exports.config = {
   logLevel: 'verbose',
   coloredLogs: true,
   screenshotPath: './errorShots/',
-  baseUrl: '',
-  waitforTimeout: 10000,
+  baseUrl: 'https://www.finder.com.au',
+  waitforTimeout: 60000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
 
   framework: 'mocha',
   mochaOpts: {
-      ui: 'bdd'
+      ui: 'bdd',
+      timeout: 9999999
   },
 
   // Code to start browserstack local before start of test
