@@ -1146,4 +1146,19 @@ describe('Payday loan page element tests', function() {
         assert(result.isVisible() == true);
         browser.deleteCookie();
     });
+    // test for more info link
+    it('should load review page', function() {
+        browser
+            // scroll to more info link
+            .scroll('.te-results__row:nth-child(1)');
+        browser
+            // click on more info link
+            .click('.te-results__row:nth-child(1) .te-cta__more-info')
+            // wait for page to load
+            .waitForVisible('#right-sidebar');
+        // check if sidebar is loading
+        var result = browser.element('#right-sidebar');
+        console.log(result);
+        assert(result.isVisible() == true);
+    });
 });
