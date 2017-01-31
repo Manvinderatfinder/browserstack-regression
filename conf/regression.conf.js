@@ -9,25 +9,36 @@ exports.config = {
   exclude: [],
 
   capabilities: [{
-    browser: 'chrome',
     os: 'OS X',
     os_version: 'El Capitan',
-    name: 'Regression suite build',
-    build: 'webdriver-browserstack'
+    browser: 'chrome',
+    name: 'regression_test',
+    build: 'webdriver-browserstack',
+    resolution: '1920x1080'
   }],
 
   logLevel: 'verbose',
   coloredLogs: true,
   screenshotPath: './errorShots/',
-  baseUrl: '',
-  waitforTimeout: 15000,
+  baseUrl: 'https://www.finder.com.au',
+  waitforTimeout: 30000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
+
   reporters: ['dot', 'spec'],
-  
+
   framework: 'mocha',
   mochaOpts: {
       ui: 'bdd',
       timeout: 9999999
+  },
+
+  // Code to set browser size
+  before: function (capabilties, specs) {
+    browser
+      .setViewportSize({
+        width: 1500,
+        height: 768
+      });
   }
 }
