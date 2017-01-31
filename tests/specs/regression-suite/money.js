@@ -1738,3 +1738,145 @@ describe('FMT infobox', function() {
         assert(result.isVisible() == true);
     });
 }); // end describe
+
+
+/*
+     ------------------
+     Test for FIN hp
+     ------------------
+  */
+describe('FIN homepage', function() {
+    beforeEach(function(done) {
+        browser
+            .url('/')
+        elem = browser.element('html.js')
+        elem.waitForVisible();
+        browser
+            .call(done);
+    });
+    // test for global menu
+    it('should display submenu when hover', function() {
+        browser
+            .moveToObject('li.hovertrigger:nth-child(3)')
+            .waitForVisible('.nav-submenu.box-feature--homeloan');
+        // check if submenu is loading after hover
+        var mismatch = browser.isVisible('.nav-submenu.box-feature--homeloan');
+        console.log(mismatch);
+        assert(mismatch == true);
+    });
+
+    // test for exclusive offer count
+    it('should display exclusive offer count', function() {
+      browser.addCommand("isPositiveNumber", function(count) {
+          return (/^(0|[1-9]\d*)$/).test(count);
+      });
+      // check if exclusive offer count is showing
+      var exCount = browser.getText('.header-sitewide__offers > div > span');
+      var exclusiveNumber = browser.isPositiveNumber(exCount);
+      console.log(exclusiveNumber);
+      assert(exclusiveNumber == true);
+});
+
+// test for footer menu
+it('should display footer menu', function() {
+  browser
+      .scroll('.footer-menu')
+
+  // check if footer menu is showing
+  var footerMenu = browser.isVisible('.footer-menu');
+  console.log(footerMenu);
+  assert(footerMenu == true);
+});
+
+// test for footer flag menu
+it('should display footer flag menu', function() {
+  browser
+      .scroll('.footer-menu')
+      .click('.flag__bg.flag__bg--blue')
+      .waitForVisible('.footer-menu .flag__bg--grey');
+
+  // check if footer flag menu is showing
+  var flagMenu = browser.isVisible('.footer-menu .flag__bg--grey');
+  console.log(flagMenu);
+  assert(flagMenu == true);
+});
+
+// test for footer disclaimer
+it('should display footer disclaimer', function() {
+  browser
+      .scroll('.footer__disclaimer')
+      // check if footer disclaimer is showing
+  var disclaimer = browser.isVisible('.footer__disclaimer');
+  console.log(disclaimer);
+  assert(disclaimer == true);
+});
+
+  // test for FIN hp tab content
+    it('should load content of credit card tab ', function() {
+      browser
+      //check if content of selected tab is showing
+      var tabContent = browser.element('#panel-credit-cards');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+
+    it('should load content of loans tab ', function() {
+      browser
+      .click('.homepage__masthead a[href="#panel-loans"]')
+      .waitForVisible('#panel-loans');
+      //check if content of selected tab is showing
+      var tabContent = browser.element('#panel-loans');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+
+    it('should load content of loans tab ', function() {
+      browser
+      .click('.homepage__masthead a[href="#panel-loans"]')
+      .waitForVisible('#panel-loans');
+      //check if content of selected tab is showing
+      var tabContent = browser.element('#panel-loans');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+
+    it('should load content of savings tab ', function() {
+      browser
+      .click('.homepage__masthead a[href="#panel-savings"]')
+      .waitForVisible('#panel-savings');
+      //check if content of selected tab is showing
+      var tabContent = browser.element('#panel-savings');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+
+    it('should load content of insurance tab ', function() {
+      browser
+      .click('.homepage__masthead a[href="#panel-insurance"]')
+      .waitForVisible('#panel-insurance');
+      //check if content of selected tab is showing
+      var tabContent = browser.element('#panel-insurance');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+
+    it('should load content of shopping tab ', function() {
+      browser
+      .click('.homepage__masthead a[href="#panel-shopping"]')
+      .waitForVisible('#panel-shopping');
+      //check if content of selected tab is showing
+      var tabContent = browser.element('#panel-shopping');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+
+    it('should load content of search tab ', function() {
+      browser
+      .click('.homepage__masthead a[href="#panel-search"]')
+      .waitForVisible('#panel-search');
+      //check if content of selected tab is showing
+      var tabContent = browser.element('.popular-searches');
+      console.log(tabContent);
+      assert(tabContent.isVisible() === true);
+    });
+}); // end describe
