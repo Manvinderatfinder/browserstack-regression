@@ -19,16 +19,14 @@ exports.config = {
   },{
     browser: 'firefox'
   },{
-    browser: 'internet explorer'
-  },{
     browser: 'safari'
   }],
 
   logLevel: 'verbose',
   coloredLogs: true,
   screenshotPath: './errorShots/',
-  baseUrl: '',
-  waitforTimeout: 10000,
+  baseUrl: 'https://www.finder.com.au',
+  waitforTimeout: 40000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
   

@@ -10,20 +10,29 @@ exports.config = {
 
   capabilities: [{
     os: 'OS X',
+    platform: 'MAC',
     os_version: 'El Capitan',
-    browser: 'chrome',
+    browserName: 'chrome',
+    version: 56,
+      chromeOptions: {
+        prefs: {
+          'profile.password_manager_enabled': false,
+          'credentials_enable_service': false,
+          'password_manager_enabled': false
+        }
+      },
     name: 'regression_test',
     build: 'webdriver-browserstack',
     resolution: '1920x1080'
   }],
 
-  logLevel: 'verbose',
+  logLevel: 'silent',
   coloredLogs: true,
   screenshotPath: './errorShots/',
   baseUrl: 'https://www.finder.com.au',
   waitforTimeout: 30000,
-  connectionRetryTimeout: 90000,
-  connectionRetryCount: 3,
+  connectionRetryTimeout: 720000,
+  connectionRetryCount: 5,
 
   reporters: ['dot', 'spec'],
 
@@ -34,11 +43,21 @@ exports.config = {
   },
 
   // Code to set browser size
-  before: function (capabilties, specs) {
+  beforeHook: function (capabilties, specs) {
     browser
-      .setViewportSize({
-        width: 1500,
-        height: 768
+      .windowHandlePosition({x: 0, y: 0})
+      .windowHandleSize({ width: 1920, height: 1080 })
+    browser
+      .url('/')
+    browser
+      .waitForVisible('html.js');
+    browser
+      .execute(function(){
+        return document.cookie="geoip_checked_au=true";
       });
+  },
+
+  after: function (capabilities, specs) {
+    browser.deleteCookie();
   }
 }

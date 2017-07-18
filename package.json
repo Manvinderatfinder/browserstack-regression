@@ -1,36 +1,33 @@
 {
-  "name": "webdriverio-browserstack",
-  "version": "0.1.0",
-  "readme": "WendriverIO Integration with [BrowserStack](https://www.browserstack.com)",
-  "description": "Selenium examples for WebdriverIO and BrowserStack Automate",
+  "name": "regression-suite",
+  "version": "0.0.1",
+  "description": "Regression-suite integration with browserstack",
+  "main": "index.js",
   "scripts": {
-    "test": "npm run single && npm run local && npm run parallel",
+    "test": "npm run single && npm run local && npm run parallel && npm run regression && npm run mobile &&npm run top-pages",
     "single": "./node_modules/.bin/wdio conf/single.conf.js",
     "parallel": "./node_modules/.bin/wdio conf/parallel.conf.js",
     "local": "./node_modules/.bin/wdio conf/local.conf.js",
-    "multiple": "./node_modules/.bin/wdio conf/multiple.conf.js",
-    "regression": "./node_modules/.bin/wdio conf/regression.conf.js"
+    "regression": "./node_modules/.bin/wdio conf/regression.conf.js",
+    "reg-ff": "./node_modules/.bin/wdio conf/ff.conf.js",
+    "ste": "./node_modules/.bin/wdio conf/ste.conf.js",
+    "ins": "./node_modules/.bin/wdio conf/ins.conf.js",
+    "mny": "./node_modules/.bin/wdio conf/mny.conf.js",
+    "global": "./node_modules/.bin/wdio conf/global.conf.js",
+    "mobile": "./node_modules/.bin/wdio conf/regression-mobile.conf.js",
+    "top-pages": "./node_modules/.bin/wdio conf/top-pages.conf.js",
+    "finus": "./node_modules/.bin/wdio conf/regression-finus.conf.js"
+
+
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/browserstack/webdriverio-browserstack.git"
-  },
-  "keywords": [
-    "webdriverio",
-    "browserstack",
-    "selenium",
-    "tests"
-  ],
-  "bugs": {
-    "url": "https://github.com/browserstack/webdriverio-browserstack/issues"
-  },
-  "homepage": "https://github.com/browserstack/webdriverio-browserstack#readme",
-  "dependencies": {
-    "browserstack-local": "^1.0.0",
-    "webdriverio": "^4.0.5"
+    "url": "git+https://github.com/finderau/RegressionSuite.git"
   },
   "devDependencies": {
-    "wdio-mocha-framework": "^0.4.3",
+    "mocha": "^3.1.2",
+    "wdio-mocha-framework": "^0.5.10",
+    "wdio-spec-reporter": "0.0.3",
     "webdriverio": "^4.2.16"
   }
 }
